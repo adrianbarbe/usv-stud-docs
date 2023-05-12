@@ -1,0 +1,55 @@
+.git
+.vs
+
+node_modules
+node_modules/
+**/node_modules
+dist
+
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+
+# Visual Studio Code
+.vscode
+
+# Rider
+.idea
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+debug
+**/Obj/
+**/obj/
+**/bin/
+**/Bin/
+**/out/
+**/Out/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio 2015
+.vs/
+
+project.lock.json
+project.fragment.lock.json
+artifacts/
+Properties/launchSettings.json

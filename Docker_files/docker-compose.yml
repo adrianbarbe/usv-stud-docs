@@ -1,0 +1,59 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: usv-user
+      POSTGRES_PASSWORD: XXR8655t3fKRpsB99BS4J4uQ
+      POSTGRES_DB: usv-stud-docs
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+  ui:
+    image: adryanbarbe/usv_stud_docs-ui
+    networks:
+      - frontend
+    ports:
+      - "30080:80"
+    deploy:
+      replicas: 1
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+  
+  api:
+    image: adryanbarbe/usv_stud_docs-api
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionString: ""
+      GoogleClientId: ""
+      GoogleClientSecret: ""
+      GoogleRedirectUri: ""
+      JwtSecretKey: ""
+    networks:
+      - backend
+    ports:
+      - "35000:5000"
+    deploy:
+      replicas: 1
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+        
+networks:
+  frontend:
+  backend:
+  main:        
+        
