@@ -1,4 +1,6 @@
-﻿namespace USVStudDocs.BLL.Exceptions
+﻿using System;
+
+namespace USVStudDocs.BLL.Exceptions
 {
     public class ValidationException : Exception
     {

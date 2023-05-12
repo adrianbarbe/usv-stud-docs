@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+
 namespace USVStudDocs.BLL.Extensions
 {
     public static class StringExtensions

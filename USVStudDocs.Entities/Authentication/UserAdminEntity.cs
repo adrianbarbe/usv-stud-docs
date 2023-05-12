@@ -1,3 +1,5 @@
+using System;
+
 namespace USVStudDocs.Entities.Authentication;
 
 public class UserAdminEntity

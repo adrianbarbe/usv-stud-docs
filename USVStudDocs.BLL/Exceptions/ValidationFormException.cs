@@ -1,4 +1,6 @@
-﻿using USVStudDocs.Models.Shared;
+﻿using System;
+using System.Collections.Generic;
+using USVStudDocs.Models.Shared;
 
 namespace USVStudDocs.BLL.Exceptions
 {

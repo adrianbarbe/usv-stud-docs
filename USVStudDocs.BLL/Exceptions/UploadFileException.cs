@@ -1,3 +1,5 @@
+using System;
+
 namespace USVStudDocs.BLL.Exceptions;
 
 public class UploadFileException : Exception

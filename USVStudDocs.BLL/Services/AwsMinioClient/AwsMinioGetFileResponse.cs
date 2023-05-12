@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace USVStudDocs.BLL.Services.AwsMinioClient
 {
     public class AwsMinioGetFileResponse

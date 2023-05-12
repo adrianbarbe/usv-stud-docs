@@ -1,4 +1,6 @@
-﻿namespace USVStudDocs.Models.Shared
+﻿using System.Collections.Generic;
+
+namespace USVStudDocs.Models.Shared
 {
     public class DataGridModel<T>
     {

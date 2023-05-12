@@ -1,3 +1,4 @@
+using System;
 using USVStudDocs.Entities.Authentication;
 
 namespace USVStudDocs.Entities.Storage;

@@ -1,3 +1,5 @@
+using System;
+
 namespace USVStudDocs.Entities;
 
 public class BaseSoftDelete

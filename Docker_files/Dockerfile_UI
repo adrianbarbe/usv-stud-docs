@@ -4,10 +4,10 @@ ARG CONFIG_MODE_ENV=staging
 
 WORKDIR /app
 
-COPY ./RemoteFinder.UI/package*.json ./
+COPY ./USVStudDocs.UI/package*.json ./
 RUN yarn install
 
-COPY ./RemoteFinder.UI/ .
+COPY ./USVStudDocs.UI/ .
 COPY ./Docker_files/ .
 
 ENV NODE_ENV=production

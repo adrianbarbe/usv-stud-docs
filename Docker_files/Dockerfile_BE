@@ -3,14 +3,14 @@ WORKDIR /app
 ARG ASPNETCORE_ENVIRONMENT=Production
 ARG BUILD_NUMBER=local
 
-COPY ./RemoteFinder.BLL ./RemoteFinder.BLL
-COPY ./RemoteFinder.DAL ./RemoteFinder.DAL
-COPY ./RemoteFinder.Entities ./RemoteFinder.Entities
-COPY ./RemoteFinder.Models ./RemoteFinder.Models
-COPY ./RemoteFinder.Web ./RemoteFinder.Web
-COPY ./RemoteFinder.sln ./
+COPY ./USVStudDocs.BLL ./USVStudDocs.BLL
+COPY ./USVStudDocs.DAL ./USVStudDocs.DAL
+COPY ./USVStudDocs.Entities ./USVStudDocs.Entities
+COPY ./USVStudDocs.Models ./USVStudDocs.Models
+COPY ./USVStudDocs.Web ./USVStudDocs.Web
+COPY ./USVStudDocs.sln ./
 
-WORKDIR /app/RemoteFinder.Web
+WORKDIR /app/USVStudDocs.Web
 
 RUN dotnet restore
 
@@ -21,7 +21,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 
 WORKDIR /app
 
-COPY --from=build-env /app/RemoteFinder.Web/out ./
+COPY --from=build-env /app/USVStudDocs.Web/out ./
 
 ENV ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
 ENV ASPNETCORE_URLS=http://*:5000
@@ -29,4 +29,4 @@ ENV ASPNETCORE_URLS=http://*:5000
 RUN echo $ASPNETCORE_ENVIRONMENT
 RUN echo $ASPNETCORE_URLS
 
-ENTRYPOINT ["dotnet", "RemoteFinder.Web.dll"]
+ENTRYPOINT ["dotnet", "USVStudDocs.Web.dll"]

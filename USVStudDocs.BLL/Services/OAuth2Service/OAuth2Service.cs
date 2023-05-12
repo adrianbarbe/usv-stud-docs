@@ -1,4 +1,6 @@
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using JWT.Algorithms;
 using JWT.Builder;
 using Microsoft.Extensions.Options;
