@@ -44,7 +44,7 @@ namespace USVStudDocs.BLL.Services.AuthorizationService
                 return "system";
             }
             
-            return _httpContextAccessor.HttpContext.User.FindFirst("name")?.Value;
+            return _httpContextAccessor.HttpContext.User.FindFirst("email")?.Value;
         }
         
         public string[] GetRoles()

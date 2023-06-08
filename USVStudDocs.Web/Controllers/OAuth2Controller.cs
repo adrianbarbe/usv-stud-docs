@@ -4,7 +4,7 @@ using USVStudDocs.Models;
 
 namespace USVStudDocs.Web.Controllers
 {
-    [Route("oauth2")]
+    [Route("api/oauth2")]
     public class OAuth2Controller : Controller
     {
         private readonly IOAuth2Service _ioAuth2Service;

@@ -1,63 +1,14 @@
-import {createRouter, createWebHistory} from 'vue-router';
-import UserRootView from "@/views/UserRootView";
-import NotFoundView from "@/views/NotFoundView";
-import SignUp from "@/components/auth/SignUp";
-import AuthRootView from "@/views/AuthRootView";
-import AuthRedirect from "@/components/auth/AuthRedirect";
-import routeGuard from "@/routeGuards/routeGuard";
-import DashboardList from "@/components/dashboard/book-list/DashboardList";
-import CategoriesList from "@/components/dashboard/categories-list/CategoriesList";
-import TermsAndConditions from "@/components/auth/TermsAndConditions.vue";
+import Vue from "vue";
+import VueRouter from "vue-router";
+import commonRoutes from "@/routes/commonRoutes";
 
-const createRoutes = (app) => [
-    {
-        path: '/',
-        name: "root",
-        component: UserRootView,
-        beforeEnter: (to, from, next) => routeGuard(to, from, next)(app),
-        children: [
-            {
-                path: "",
-                name: "dashboard",
-                component: DashboardList,
-            },
-            // {
-            //     path: "/categories",
-            //     name: "categories",
-            //     component: CategoriesList,
-            // }
-        ]
-    },
-    {
-        path: '/auth',
-        component: AuthRootView,
-        children: [
-            {
-                path: "terms-and-conditions",
-                name: "terms-and-conditions",
-                component: TermsAndConditions,
-            },
-            {
-                path: "sign-up",
-                name: "sign-up",
-                component: SignUp,
-            },
-            {
-                path: "redirect",
-                name: "redirect",
-                component: AuthRedirect,
-            }
-        ],
-    },
-    {path: '/404', component: NotFoundView},
-    {path: '/:pathMatch(.*)*', redirect: '/404'},
-]
+Vue.use(VueRouter);
 
-const router = (app) => {
-    return createRouter({
-        history: createWebHistory(),
-        routes: createRoutes(app)
-    });
-};
+const router = new VueRouter({
+  mode: "history",
+  routes: [{ path: "*", redirect: "/notfound" }],
+});
+
+router.addRoutes(commonRoutes(router));
 
 export default router;

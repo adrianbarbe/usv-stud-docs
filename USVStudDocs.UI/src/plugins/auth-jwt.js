@@ -1,89 +1,98 @@
-import config from "../app.config";
-import {AppConfig} from "../config/configFactory";
+import Vue from "vue";
 import jwtDecode from "jwt-decode";
 import intersectionWith from "lodash/intersectionWith";
 
-const configuration = AppConfig(config);
+let auth = new Vue({
+  created() {},
+  computed: {
+    bearerToken: {
+      get: () => {
+        return localStorage.getItem("bearer_token");
+      },
+      set: (token) => {
+        localStorage.setItem("bearer_token", token);
+      },
+    },
+    refreshToken: {
+      get: () => {
+        return localStorage.getItem("refresh_token");
+      },
+      set: (token) => {
+        localStorage.setItem("refresh_token", token);
+      },
+    },
+    authToken: {
+      get: () => {
+        return JSON.parse(localStorage.getItem("auth_token"));
+      },
+      set: (token) => {
+        localStorage.setItem("auth_token", JSON.stringify(jwtDecode(token)));
+      },
+    },
+  },
+  methods: {
+    login(token, refreshToken) {
+      this.bearerToken = token;
+      this.refreshToken = refreshToken;
 
-const auth = (app) => {
-    const login = (idToken, refreshToken) => {
-        localStorage.setItem('id_token', idToken);
-        localStorage.setItem('refresh_token', refreshToken);
-    };
-    
-    const logout = () => {
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('refresh_token');
-    };
-    
-    const isAuthenticated = () => {
-        const idToken = localStorage.getItem('id_token');
-        if (idToken === null || idToken === "undefined") {
-            return false;
-        }
-        
-        const decoded = jwtDecode(idToken);
-        
-        if (decoded === null) {
-            return false;
-        }
-        
-        return (new Date().getTime() / 1000) < decoded.exp;
-    };
-    
-    const getUsername = () => {
-        const idToken = localStorage.getItem('id_token');
-        if (idToken === null || idToken === "undefined") {
-            return false;
-        }
-        
-        const decoded = jwtDecode(idToken);
+      this.authToken = token;
+    },
+    logout() {
+      localStorage.removeItem("bearer_token");
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("refresh_token");
+    },
+    isAuthenticated() {
+      const authToken = JSON.parse(localStorage.getItem("auth_token"));
+      if (authToken === null) {
+        return false;
+      }
 
-        return (decoded !== null && decoded.unique_name);
-    };
-    
-    const getRoles = () => {
-        const idToken = localStorage.getItem('id_token');
-        if (idToken === null || idToken === "undefined") {
-            return false;
-        }
-        
-        const decoded = jwtDecode(idToken);
+      return new Date().getTime() / 1000 < authToken.exp;
+    },
+    getCurrentUser() {
+      const authToken = JSON.parse(localStorage.getItem("auth_token"));
+      return authToken !== null && authToken.unique_name;
+    },
+    getRole() {
+      const authToken = JSON.parse(localStorage.getItem("auth_token"));
 
-        if (decoded !== null) {
-            return decoded.role;
-        }
+      if (authToken !== null) {
+        return authToken.role;
+      }
 
-        return [];
-    };
-    
-    const hasRoles = (rolesStr) => {
-        let role = typeof rolesStr === "string" ? [rolesStr] : rolesStr;
-        
-        const idToken = localStorage.getItem('id_token');
-        return intersectionWith(role, idToken.roles, (a, b) => {
-            return a === b;
-        }).length > 0;
-    };
-    
-    const getIdToken = () => {
-        return localStorage.getItem('id_token');
-    };
-    
-    const getRefreshToken = () => {
-        return localStorage.getItem('refresh_token');
-    }
-    
-    return {
-        login,
-        logout,
-        isAuthenticated,
-        getUsername,
-    };
-};
+      return null;
+    },
+    getUsername() {
+      const idToken = localStorage.getItem("bearer_token");
+      if (idToken === null || idToken === "undefined") {
+        return false;
+      }
+
+      const decoded = jwtDecode(idToken);
+
+      return decoded !== null && decoded.unique_name;
+    },
+    hasRoles(rolesStr) {
+      let role = typeof rolesStr === "string" ? [rolesStr] : rolesStr;
+
+      return (
+        intersectionWith(role, this.getRoles(), (a, b) => {
+          return a === b;
+        }).length > 0
+      );
+    },
+    getBearerToken() {
+      return localStorage.getItem("bearer_token");
+    },
+    getRefreshToken() {
+      return localStorage.getItem("refresh_token");
+    },
+  },
+});
 
 export default {
-    install: function (app) {
-        app.config.globalProperties.$auth = auth(app);
-    }
-}
+  install: function (Vue) {
+    Vue.prototype.$auth = auth;
+  },
+};

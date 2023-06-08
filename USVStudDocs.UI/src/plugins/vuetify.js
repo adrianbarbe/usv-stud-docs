@@ -1,34 +1,33 @@
-// Styles
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import "@mdi/font/css/materialdesignicons.css";
 
-// Vuetify
-import { createVuetify } from 'vuetify'
+import Vue from "vue";
+import Vuetify from "vuetify/lib/framework";
+import ro from "vuetify/lib/locale/ro";
 
+Vue.use(Vuetify);
 
-const usvTheme = {
-    dark: false,
-    colors: {
-        background: '#FFFFFF',
-        surface: '#FFFFFF',
+export default new Vuetify({
+  theme: {
+    options: {
+      customProperties: true,
+    },
+    themes: {
+      light: {
         primary: "#264796",
-        // 'primary-darken-1': '#264796',
-        secondary: '#03DAC6',
-        // 'secondary-darken-1': '#018786',
-        error: '#B00020',
-        info: '#2196F3',
-        success: '#4CAF50',
-        warning: '#FB8C00',
-    }
-}
-
-export default createVuetify(
-    {
-        theme: {
-            defaultTheme: 'usvTheme',
-            themes: {
-                usvTheme,
-            }
-        }
-    }
-)
+        secondary: "#F47921",
+        accent: "#052C6F",
+        error: "#FF5252",
+        info: "#2196F3",
+        success: "#4CAF50",
+        warning: "#FFC107",
+      },
+    },
+  },
+  lang: {
+    locales: { ro },
+    current: "ro",
+  },
+  icons: {
+    iconfont: "md",
+  },
+});

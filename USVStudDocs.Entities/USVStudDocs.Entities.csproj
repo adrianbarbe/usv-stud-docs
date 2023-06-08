@@ -11,8 +11,4 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.10" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Payments" />
-    </ItemGroup>
-
 </Project>

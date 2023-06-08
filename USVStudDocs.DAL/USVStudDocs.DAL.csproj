@@ -24,4 +24,9 @@
     <ItemGroup>
       <ProjectReference Include="..\USVStudDocs.Entities\USVStudDocs.Entities.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations" />
+      <Folder Include="MigrationSql" />
+    </ItemGroup>
 </Project>
