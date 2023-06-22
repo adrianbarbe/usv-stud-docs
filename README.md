@@ -16,7 +16,7 @@
   <p align="center">
     An awesome software tool for interacting with the dean office for getting student's certificate!
     <br />
-    <a href="https://github.com/adrianbarbe/usv-stud-docs/blob/main/README.md"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/adrianbarbe/usv-stud-docs/blob/master/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://ulib.online"><strong>View Demo</strong></a>
