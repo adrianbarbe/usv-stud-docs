@@ -66,15 +66,13 @@ public class EmailService : IEmailService
         {
             recipientEmail = oAuthEmailSenderEmail.Value;
         }
-
-
+        
         var clientSecrets = new ClientSecrets
         {
             ClientId = clientId,
             ClientSecret = clientSecret
         };
-
-
+        
         var token = new TokenResponse
         {
             AccessToken = accessToken,
