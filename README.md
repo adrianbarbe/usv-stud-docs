@@ -1,52 +1,29 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
 
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/adrianbarbe/usv-stud-docs">
+    <img src="USVStudDocs.UI/src/assets/usv-logo-main.png" alt="USV-docs" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">USV StudDocs – facilitating interaction with your University</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    An awesome software tool for interacting with the dean office for getting student's certificate!
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/adrianbarbe/usv-stud-docs/blob/main/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://ulib.online"><strong>View Demo</strong></a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/adrianbarbe/usv-stud-docs/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/adrianbarbe/usv-stud-docs/issues">Request Feature</a>
   </p>
 </div>
 
@@ -61,6 +38,15 @@
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
+    </li>
+    <li>
+      <a href="#project-design">Project Design</a>
+    </li>
+    <li>
+      <a href="#implementation">Implementation</a>
+    </li>
+    <li>
+      <a href="#deployment">Deployment</a>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -82,19 +68,36 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+This is a piece of software which is aimed to facilitate the interaction with the dean office in USV. It uses USV Google oAuth2 authentication
+which makes it even easier to use.
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<img src="USVStudDocs.UI/_screenshots/scr_1_auth.png" alt="USV StudDocs Main Auth Screen" height="700">
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+Admin user could do the managing for the dictionaries and basic settings:
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+<img src="USVStudDocs.UI/_screenshots/scr_2_admin_1.png" alt="USV StudDocs Administration" height="700">
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+<img src="USVStudDocs.UI/_screenshots/scr_3_admin_2.png" alt="USV StudDocs Administration" height="700">
 
-Use the `BLANK_README.md` to get started.
+<img src="USVStudDocs.UI/_screenshots/scr_4_admin_3.png" alt="USV StudDocs Administration" height="700">
+
+<img src="USVStudDocs.UI/_screenshots/scr_5_admin_4.png" alt="USV StudDocs Administration" height="700">
+
+
+Student would use the same auth screen and inside the app will see the list of already made requests and the button for creating a new one.
+
+<img src="USVStudDocs.UI/_screenshots/scr_6_stud_1.png" alt="USV StudDocs Student" height="700">
+
+<img src="USVStudDocs.UI/_screenshots/scr_7_stud_2.png" alt="USV StudDocs Student" height="700">
+
+
+
+Dean office secretary will receive the certificate request and will follow up it according to the procedure.
+
+<img src="USVStudDocs.UI/_screenshots/scr_8_secr_1.png" alt="USV StudDocs Student" height="700">
+
+<img src="USVStudDocs.UI/_screenshots/scr_9_secr_2.png" alt="USV StudDocs Student" height="700">
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -102,80 +105,262 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
+* [![.NET][.NET]][.NET-url]
 * [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [![PostgreSQL][psql]][psql-url]
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Project design
 
+This project is build as a Client-API application with a client developed using the VueJs 3 front-end framework and API developed by using .NET 6 C#.
+We used Entity Framework as main ORM and the chosen approach was Code First. This choice is dictated by the usability and maintainability of this approach. It creates uniform namings across the DB, there's no need to write down SQL code and maintain SQL code base.
+
+The project is a solution that consists of 5 .NEt projects that corresponds to the architectural layers.
+
+For this project we have chosen 3-tier / Layer architecure. It comprise of 3-tiers, Presentation Layer, Business Logic Layer, and Data Access Layer. Each Layer will have its own namespace, assembly and project (classes and folders)in the solution. 
+
+We considered this architecture becuase there are some benefits of N-tier Architecture:
+* Reuse of the code
+* Improve of the Maintainability
+* Looser Coupling
+
+In our project we have next sub-projects:
+* USVStudDocs.DAL - Data access layer, where the entity configurations, migrations and EF Context is saved.
+* USVStudDocs.Entities – a class project where the Entities are grouped. They are suffixed by "*Entity"
+* USVStudDocs.Models - a class project where the Data Transfer Objects (DTO) are located
+* USVStudDocs.BLL - Business logic layer, a class project where the services and other business logic (authentication, 3rd party API integration, validation) is stored.
+* USVStudDocs.Web – API project, presentation layer. A set of Controllers with exposed API endpoints, where the routing, authentication guards are implemented.
+  USVStudDocs.UI – UI project, VueJs. Is what the user could see.
+
+## Implementation
+
+Some notable libraries (NuGets) used in our application are:
+* FluentValidation – for DTO validation
+* RestSharp - for sending API requests during the validation of oAuth2 code
+* Serilog and Serilog.Sinks.Console and Serilog.Sinks.Telegram – for collecting and sending logs to console, and warnings and up – to Telegram.
+* JWt - for generating user-facing JWT
+
+#### Business layer
+
+Business layer contains logic for Authentication, Custom Exceptions, Extension methods, Helpers, Mappes (between Entities and DTOs and vice-versa) and the most important – Services. 
+
+Validators are created based on FluentValidation. 
+
+Among services, there are CRUD Services for administration, for creating the certificate requeste, the sevices for use by dean office secretary.
+There is also AwsMinioClient service that is used for uploading files to MinIO
+
+Some notable places in BLL are:
+* use of ```IHttpContextAccessor``` in BLL for getting the current user.
+```c#
+var subValue = _httpContextAccessor.HttpContext.User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+
+            bool parseRes = int.TryParse(subValue, out var userId);
+
+            if (!parseRes)
+            {
+                Log.ForContext<AuthorizationService>().Error("Cannot parse user Id from {SubValue}", subValue);
+                
+                throw new ValidationException("User id is not an integer");
+            }
+
+            return userId;
+        }
+```
+
+
+* JWT generation
+
+```c#
+var jwtSecretKey = Environment.GetEnvironmentVariable("JwtSecretKey") ?? _jwtSettings.SecretKey;
+
+        var tokenBuilder = new JwtBuilder()
+            .WithAlgorithm(new HMACSHA256Algorithm())
+            .WithSecret(jwtSecretKey)
+            .AddClaim(JwtRegisteredClaimNames.Exp,
+                DateTimeOffset.UtcNow.AddMinutes(_jwtSettings.ExpirationMinutes).ToUnixTimeSeconds())
+            .AddClaim(JwtRegisteredClaimNames.Iss, _jwtSettings.Issuer)
+            .AddClaim(JwtRegisteredClaimNames.Aud, _jwtSettings.Audience)
+            .AddClaim(JwtRegisteredClaimNames.Sub, userEntity.Id)
+            .AddClaim(JwtRegisteredClaimNames.UniqueName, userEntity.Username)
+            .AddClaim(JwtRegisteredClaimNames.Email, userEntity.Email)
+            .AddClaim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.AddMilliseconds(1).ToUnixTimeSeconds());
+        
+        tokenBuilder.AddClaim("role", roles);
+            
+        return tokenBuilder.Encode();
+```
+
+* Splitter of the Surname, Patornymic initials and name
+
+  ```c#
+  var studentSurnameNamePatronymic = res.Result.SurnameNamePatronymic.Trim()
+                        .Replace("`", "'").Replace("'", "'")
+                        .Replace("’", "'").Replace("  ", " ")
+                        .Split(" ");
+
+                    List<string> surname = new List<string>();
+                    List<string> name = new List<string>();
+                    List<string> patronymic = new List<string>();
+
+                    foreach (var studentString in studentSurnameNamePatronymic)
+                    {
+                        if (!studentString.Contains('.') && patronymic.Count == 0)
+                        {
+                            surname.Add(studentString);
+                        }
+                        else if (studentString.Contains('.') && patronymic.Count == 0)
+                        {
+                            patronymic.Add(studentString);
+                        }
+                        else if (!studentString.Contains('.') && patronymic.Count > 0)
+                        {
+                            name.Add(studentString);
+                        }
+                    }
+
+  ```
+
+  * Authorizing e-mail service to use Gmail account
+    
+```c#
+    
+  var clientSecrets = new ClientSecrets
+        {
+            ClientId = clientId,
+            ClientSecret = clientSecret
+        };
+        
+        var token = new TokenResponse
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
+        };
+
+        var credential = CreateUserCredential(clientSecrets, token, oAuthEmailSenderEmail.Value);
+
+        // Check if the access token has expired
+        if (credential.Token.IsExpired(credential.Flow.Clock))
+        {
+            // Refresh the access token
+            if (credential.RefreshTokenAsync(CancellationToken.None).Result)
+            {
+                accessToken = credential.Token.AccessToken;
+                oAuthEmailAccessToken.Value = accessToken;
+                _context.Settings.Update(oAuthEmailAccessToken);
+                
+                refreshToken = credential.Token.RefreshToken;
+                oAuthEmailRefreshToken.Value = refreshToken;
+                _context.Settings.Update(oAuthEmailRefreshToken);
+
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Failed to refresh access token.");
+            }
+        }
+
+        var service = new GmailService(new BaseClientService.Initializer
+        {
+            HttpClientInitializer = credential
+        });
+```
+
+## Deployment
+
+For the project deployment we used Docker containers. In ```Docker_files``` you'll find configurations for the API and UI. 
+
+On the server the project is running by the means of Docker Swarm, using docker-composer.yml. As a server we used Ubuntu Server 22.04, and ```nginx``` as a reverse-proxy server.
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
+This is a description of how you should run up this project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+First of all, make sure you have installed NodeJs major version 16. 
+You could download it from the [official site](https://nodejs.org) or by using [nvm](https://github.com/nvm-sh/nvm).
+I highly recommend you to use Yarn as a package manager tool. Please install it by next command:
+```sh
+npm install --global yarn
+```
+
+Here you could see the Swagger API documentation for the back-end end-points:
+<a href="https://ulib.online"><strong>View API documentaion</strong></a>
+
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+_There are two projects in the Git repository – UI and API. You'll find the UI project into RemoteFinder.UI directory._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. 
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/adrianbarbe/RemoteFinder.git
    ```
-3. Install NPM packages
+2. Install the NPM packages by executing 
    ```sh
-   npm install
+   yarn install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Run the project for development
+   ```sh
+   yarn serve
    ```
+
+_To run the API project, you'll need to create a .env file in RemoteFinder.Web with the following keys:_
+1. ```ASPNETCORE_ENVIRONMENT``` which could be ```Development``` or ```Production```
+3. ```DbConnectionString``` the connection string to your PostgreSQL database engine installation.
+4. ```GoogleClientId``` is the client id for the Google oAuth2 Credentials. For creating new credentials please access [Google Developers Console](https://console.cloud.google.com/apis/credentials)
+5. ```GoogleClientSecret``` client secret generated in Google Developers Console
+6. ```GoogleRedirectUri``` redirect URI which you indicated in the Google oAuth2 application settings
+7. ```JwtSettings:SecretKey``` and ```JwtSecretKey``` – a hash string for JWT tokens.
+
+After creating the .env file you could start your project locally by running ```dotnet run``` command or by using the configuration profile for JetBrains Rider which is stored in the project repository.
+
+### Deployment
+In the project root you'll find a directory ```Docker_files``` that contains Docker definitions for projects and a ```docker-compose.yml``` file. You could use it for deploying the project into a Docker Swarm cluster. You could create it by installing Docker on the server and initialize a Swarm by ```doker swarm init``` command. Then, by placing the ```docker-compose.yml``` file in the desired directory, execute next command to initialize the Docker Swarm services: 
+```sh
+docker stack deploy --compose-file docker-compose.yml usv-docs --with-registry-auth
+```
+ Don't forget to update correspondingly 
+the environment variables in the ```docker-compose.yml``` file for ```be``` service. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+Here you could see the usage examples for the student.
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+<a href="https://ulib.online"><strong>View the Demo Here  »»»</strong></a>
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+
+To add a new request for a certificate to your dean office just click the main button above the list of the request and you'll see this Add New Certificate request modal:
+<img src="USVStudDocs.UI/_screenshots/scr_7_stud_2.png" alt="USV StudDocs Add New" height="500">
+
+By default student will see the list of already made the requests. Stuent is able to add new request only then the previous one was solved: 
+<img src="USVStudDocs.UI/_screenshots/scr_6_stud_1.png" alt="USV StudDocs Add New" height="500">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
+- [x] Add Basic functionality
+- [x] Add Multiple Faculties
+- [x] Add possibility to check the status of the certificate request
+- [x] Receive email when the status is changed
+- [x] Administration of the data from the UI
+- [ ] Make mobile-ready web-version
 - [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+
+See the [open issues](https://github.com/adrianbarbe/usv-stud-docs/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -202,7 +387,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the GNU GPL License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -211,8 +396,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Adrian Barbe - adryanbarbe@gmail.com
-Silviu-Gabriel Stroe - silviu.stroe@gmail.com
+Adrian Barbe - [@adryanbarbe](https://twitter.com/adryanbarbe) - adryanbarbe@gmail.com
 
 Project Link: [https://github.com/adrianbarbe/usv-stud-docs](https://github.com/adrianbarbe/usv-stud-docs)
 
@@ -223,10 +407,9 @@ Project Link: [https://github.com/adrianbarbe/usv-stud-docs](https://github.com/
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
 * [Choose an Open Source License](https://choosealicense.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Img Shields](https://shields.io)
+* [Vuetify](http://next.vuetifyjs.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -234,32 +417,16 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+
+[license-shield]: https://img.shields.io/badge/GNU%20GPL-GNU%20GPL-green?style=for-the-badge
+[license-url]: https://github.com/adrianbarbe/usv-stud-docs/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
+[linkedin-url]: https://linkedin.com/in/adryanbarbe
+[product-screenshot]: USVStudDocs.UI/_screenshots/scr_1.png
+
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
 [Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[.NET]: https://img.shields.io/badge/-.NET%206.0-blueviolet?style=for-the-badge
+[.NET-url]: https://dotnet.microsoft.com/en-us/download/dotnet/6.0
+[psql]: https://img.shields.io/badge/PgSQL-PostgreSQL-blue?style=for-the-badge
+[psql-url]: https://img.shields.io/badge/PgSQL-PostgreSQL-blue?style=for-the-badge
