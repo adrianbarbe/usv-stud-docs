@@ -273,7 +273,76 @@ var jwtSecretKey = Environment.GetEnvironmentVariable("JwtSecretKey") ?? _jwtSet
 
 For the project deployment we used Docker containers. In ```Docker_files``` you'll find configurations for the API and UI. 
 
-On the server the project is running by the means of Docker Swarm, using docker-composer.yml. As a server we used Ubuntu Server 22.04, and ```nginx``` as a reverse-proxy server.
+One of the simplest ways to run the app on the server is running by the means of Docker Swarm, using docker-composer.yml. As a server we used Ubuntu Server 22.04, and ```nginx``` as a reverse-proxy server. The following instruction will be for Ubuntu 22.04.
+
+1. Please install Docker engine.
+```sh
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+* you may not like to use "sudo" every time you execute Docker commmands.
+
+If you want to omit this, then execute the following:
+
+```sh
+sudo groupadd docker
+sudo gpasswd -a $USER docker
+```
+
+2. Initialize the Swarm:
+```sh
+sudo docker swarm init
+```
+Make a note of the command output, as it will contain the token needed to add other nodes to the Swarm.
+
+3. Create a directory on your home directory or another which you prefer (e.g. /home/usv-stud-docs)
+
+3. Copy the file docker-compose.yml to this directory on the server.
+
+4. Update the ENVs in the docker-compose.yml.
+
+    - POSTGRES_PASSWORD - the desired PostresDB instance password.
+    - ASPNETCORE_ENVIRONMENT - to Development or Production
+    - DbConnectionString - according to this sample: Host=<host ip>;Port=15432;Database=usv-stud-docs;Username=usv-user;Password=<password indicated in POSTGRES_PASSWORD>
+    - GoogleClientId - which you obtained by visiting https://console.cloud.google.com/apis/credentials and creating oAuth2 credentials (after you created the project)
+    - GoogleClientSecret - the secret from the previous place
+    - GoogleRedirectUri - should correspond to the one indicated in Google Console, and should be according to this sample: https://<host_name>/auth/redirect
+    - GoogleEmailRedirectUri - this is used for authorizing for sending emails, should correspond to the one indicated in Google Console, and should be according to this sample: https://<host_name>/auth/redirect
+    - JwtSecretKey - a random string 16-32 chars length
+   
+5. Create new directory called "db", assign the ownership to the user that will run the app (e.g. usvdocs) and assign 777 access rights.
+
+```sh
+mkdir db
+sudo chown usvdocs db
+sudo chmod 777 db
+```
+
+6. In real-world scenario you'd need to push the Docker image to your own private DockerHub, where the Docker images are stored. In our case, you could use the already stored public images, that are indicated in the docker-compose.yml (this needs no changes). This would require to exeute docker login -u {username} commant.
+
+7. You need to start your services by executing next command:
+
+```sh
+docker stack deploy --compose-file docker-compose.yml usvstudulib --with-registry-auth
+```
+
+8. You may want to check the services status:
+
+```sh
+docker service ls
+```
+
+9. After the services were created, please connect to the DB (postgresql), don't forget to use the corresponding port from the docker-compose.yml and exeucte the file "USVStudDocs.DAL/MigrationSQL/migration.sql".
+10. After this your app instance will be populated with the data structure and the initial data.
+11. You may want to set-up the load balancer, to serve the L7 network, e.g. nginx. You could find a sample Nginx set-up in Docker_files/nginx_lb/usvstud.conf which should be places in /etc/nginx/sites-available and then a symbolic link (ln -s) should be created to /etc/nginx/sites-enabled.
+12. You may also want to install some LetsEncypt SSL cetificates in case no other options are available:
+
+```sh
+sudo snap install core; sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
+```
 
 <!-- GETTING STARTED -->
 ## Getting Started
