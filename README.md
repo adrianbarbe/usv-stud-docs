@@ -71,32 +71,32 @@
 This is a piece of software which is aimed to facilitate the interaction with the dean office in USV. It uses USV Google oAuth2 authentication
 which makes it even easier to use.
 
-<img src="USVStudDocs.UI/_screenshots/scr_1_auth.png" alt="USV StudDocs Main Auth Screen" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_1_auth.png" alt="USV StudDocs Main Auth Screen" height="550">
 
 Admin user could do the managing for the dictionaries and basic settings:
 
-<img src="USVStudDocs.UI/_screenshots/scr_2_admin_1.png" alt="USV StudDocs Administration" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_2_admin_1.png" alt="USV StudDocs Administration" height="550">
 
-<img src="USVStudDocs.UI/_screenshots/scr_3_admin_2.png" alt="USV StudDocs Administration" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_3_admin_2.png" alt="USV StudDocs Administration" height="550">
 
-<img src="USVStudDocs.UI/_screenshots/scr_4_admin_3.png" alt="USV StudDocs Administration" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_4_admin_3.png" alt="USV StudDocs Administration" height="550">
 
-<img src="USVStudDocs.UI/_screenshots/scr_5_admin_4.png" alt="USV StudDocs Administration" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_5_admin_4.png" alt="USV StudDocs Administration" height="550">
 
 
 Student would use the same auth screen and inside the app will see the list of already made requests and the button for creating a new one.
 
-<img src="USVStudDocs.UI/_screenshots/scr_6_stud_1.png" alt="USV StudDocs Student" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_6_stud_1.png" alt="USV StudDocs Student" height="550">
 
-<img src="USVStudDocs.UI/_screenshots/scr_7_stud_2.png" alt="USV StudDocs Student" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_7_stud_2.png" alt="USV StudDocs Student" height="550">
 
 
 
 Dean office secretary will receive the certificate request and will follow up it according to the procedure.
 
-<img src="USVStudDocs.UI/_screenshots/scr_8_secr_1.png" alt="USV StudDocs Student" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_8_secr_1.png" alt="USV StudDocs Student" height="550">
 
-<img src="USVStudDocs.UI/_screenshots/scr_9_secr_2.png" alt="USV StudDocs Student" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_9_secr_2.png" alt="USV StudDocs Student" height="550">
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -362,7 +362,7 @@ npm install --global yarn
 Here you could see the Swagger API documentation for the back-end end-points:
 <a href="https://api.ulib.online/docs"><strong>View API documentaion</strong></a>
 
-<img src="USVStudDocs.UI/_screenshots/scr_10_swagger.png" alt="USV StudDocs Swagger" height="700">
+<img src="USVStudDocs.UI/_screenshots/scr_10_swagger.png" alt="USV StudDocs Swagger" height="550">
 
 ### Installation
 
