@@ -291,8 +291,9 @@ npm install --global yarn
 ```
 
 Here you could see the Swagger API documentation for the back-end end-points:
-<a href="https://ulib.online"><strong>View API documentaion</strong></a>
+<a href="https://api.ulib.online/docs"><strong>View API documentaion</strong></a>
 
+<img src="USVStudDocs.UI/_screenshots/scr_10_swagger.png" alt="USV StudDocs Swagger" height="700">
 
 ### Installation
 
