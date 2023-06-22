@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: usv-user
-      POSTGRES_PASSWORD: XXR8655t3fKRpsB99BS4J4uQ
+      POSTGRES_PASSWORD: <poastgrespass>
       POSTGRES_DB: usv-stud-docs
     ports:
       - "15432:5432"
