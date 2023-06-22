@@ -29,14 +29,12 @@ export default {
     getAuthUrl() {
       const rootUrl = `https://accounts.google.com/o/oauth2/v2/auth`;
 
-      const clientId =
-        "455359139560-h6e2hpgeheekl0po8ll0pv8blsf7fju9.apps.googleusercontent.com";
       const queryData = {
         scope: "email openid profile",
         access_type: "offline",
         response_type: "code",
         redirect_uri: `${this.$config.appEndpoint}/auth/redirect`,
-        client_id: clientId,
+        client_id: this.$config.oauthClientId,
         prompt: "select_account",
       };
 

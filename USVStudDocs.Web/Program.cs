@@ -30,6 +30,7 @@ using USVStudDocs.BLL.Mappers.Admin;
 using USVStudDocs.BLL.Mappers.Secretary;
 using USVStudDocs.BLL.Mappers.Student;
 using USVStudDocs.BLL.Services.CommonNumberService;
+using USVStudDocs.BLL.Services.EmailService;
 using USVStudDocs.BLL.Services.FacultyPersonService;
 using USVStudDocs.BLL.Services.FacultyService;
 using USVStudDocs.BLL.Services.NavigationService;
@@ -203,6 +204,7 @@ builder.Services.AddScoped<IStudentsImportService, StudentsImportService>();
 builder.Services.AddScoped<IStudentCertificateService, StudentCertificateService>();
 builder.Services.AddScoped<ISecretaryCertificateService, SecretaryCertificateService>();
 builder.Services.AddScoped<ICommonNumberService, CommonNumberService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddScoped<StartupCheckAdmin>();
 
@@ -223,11 +225,11 @@ app.UseCors(corsAllowOrigins);
 app.UseAuthentication();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 app.UseAuthorization();
 

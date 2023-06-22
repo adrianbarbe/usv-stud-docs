@@ -43,12 +43,12 @@ public class StudentCertificateService : IStudentCertificateService
 
         var count = _context.Certificate
             .Where(c => c.StudentId == studentEntity.Id)
-            .OrderBy(c => c.RegistrationDate)
+            .OrderByDescending(c => c.RegistrationDate)
             .Count();
         
         var items = _context.Certificate
             .Where(c => c.StudentId == studentEntity.Id)
-            .OrderBy(c => c.RegistrationDate);
+            .OrderByDescending(c => c.RegistrationDate);
 
         var itemsOrders = items
             .Include(c => c.Secretary)

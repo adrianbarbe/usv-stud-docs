@@ -8,4 +8,6 @@ public interface ISettingsService
     List<string> GetCertificateReasons();
     
     AdminConfiguration Update(AdminConfiguration model);
+
+    void AuthorizeEmailAuth(string code);
 }

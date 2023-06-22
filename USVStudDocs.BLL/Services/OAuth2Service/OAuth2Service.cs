@@ -95,7 +95,6 @@ public class OAuth2Service : IOAuth2Service
         var token = new AuthTokenResponse();
         try
         {
-
             var tokenResponse = _googleRestClient.Execute<AuthTokenResponse>(codeExchangeRequest);
             token = tokenResponse.Data;
         }
@@ -109,7 +108,6 @@ public class OAuth2Service : IOAuth2Service
     
     private string GenerateJwtToken(UserEntity userEntity)
     {
-
         var jwtSecretKey = Environment.GetEnvironmentVariable("JwtSecretKey") ?? _jwtSettings.SecretKey;
 
         var tokenBuilder = new JwtBuilder()

@@ -80,6 +80,7 @@ export default {
     headers: [
       { text: "#", value: "index", sortable: false },
       { text: "Numele, Prenumele", value: "surname", sortable: false },
+      { text: "Email", value: "email", sortable: false },
       // {text: 'Data de nastere', value: 'birthday', sortable: false},
       // {text: 'Sexul', value: 'gender', sortable: false},
       { text: "Actiuni", value: "actions", sortable: false },

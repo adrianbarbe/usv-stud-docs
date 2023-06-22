@@ -7,6 +7,7 @@ using USVStudDocs.BLL.Extensions;
 using USVStudDocs.BLL.Mappers;
 using USVStudDocs.BLL.Services.AuthorizationService;
 using USVStudDocs.BLL.Services.CommonNumberService;
+using USVStudDocs.BLL.Services.EmailService;
 using USVStudDocs.BLL.Validators;
 using USVStudDocs.DAL;
 using USVStudDocs.Entities;
@@ -23,14 +24,17 @@ public class SecretaryCertificateService : ISecretaryCertificateService
     private readonly MainContext _context;
     private readonly IMapper<CertificateEntity, SecretaryCertificateListItem> _secretaryCertificateMapper;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IEmailService _emailService;
 
     public SecretaryCertificateService(MainContext context, 
         IMapper<CertificateEntity, SecretaryCertificateListItem> secretaryCertificateMapper,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IEmailService emailService)
     {
         _context = context;
         _secretaryCertificateMapper = secretaryCertificateMapper;
         _authorizationService = authorizationService;
+        _emailService = emailService;
     }
 
     public SecretaryCertificatePrint GetPrint(int id)
@@ -253,14 +257,20 @@ public class SecretaryCertificateService : ISecretaryCertificateService
         foundCertificate.Status = Entities.Constants.CertificateStatus.Approved;
         _context.Certificate.Update(foundCertificate);
         _context.SaveChanges();
+
+        var subject = "Starea cererii pentru adeverinta student USV";
+        var body = $"Buna ziua, dorim sa va informam, ca cererea pentru adeverinta " +
+                   $"studentului USV a fost aprobata si a primit numarul {foundCertificate.RegistrationNumber}. " +
+                   $"Va rugam sa asteptati pana veti primi mesajul de semnare al adevernitei.";
         
-        
-        // Send email
+        _emailService.SendEmail(foundCertificate.Student.Email, subject, body);
     }
 
     public void ConfirmPrint(int id)
     {
-        var foundCertificate = _context.Certificate.FirstOrDefault(c => c.Id == id);
+        var foundCertificate = _context.Certificate
+            .Include(c => c.Student)
+            .FirstOrDefault(c => c.Id == id);
 
         if (foundCertificate == null)
         {
@@ -270,11 +280,19 @@ public class SecretaryCertificateService : ISecretaryCertificateService
         foundCertificate.Status = Entities.Constants.CertificateStatus.Printed;
         _context.Certificate.Update(foundCertificate);
         _context.SaveChanges();
+        
+        var subject = "Starea cererii pentru adeverinta student USV";
+        var body = $"Buna ziua, dorim sa va informam, ca cererea pentru adeverinta " +
+                   $"studentului USV cu numarul {foundCertificate.RegistrationNumber} a fost listata de secretariat.";
+        
+        _emailService.SendEmail(foundCertificate.Student.Email, subject, body);
     }
 
     public void ConfirmSignature(int id)
     {
-        var foundCertificate = _context.Certificate.FirstOrDefault(c => c.Id == id);
+        var foundCertificate = _context.Certificate
+            .Include(c => c.Student)
+            .FirstOrDefault(c => c.Id == id);
 
         if (foundCertificate == null)
         {
@@ -285,7 +303,11 @@ public class SecretaryCertificateService : ISecretaryCertificateService
         _context.Certificate.Update(foundCertificate);
         _context.SaveChanges();
         
-        // Send email
+        var subject = "Starea cererii pentru adeverinta student USV";
+        var body = $"Buna ziua, dorim sa va informam, ca cererea pentru adeverinta " +
+                   $"studentului USV cu numarul {foundCertificate.RegistrationNumber} a fost semnata si " +
+                   $"este gata pentru a fi ridicata din secretariat.";
+        _emailService.SendEmail(foundCertificate.Student.Email, subject, body);
     }
 
     public void RejectItem(int id, SecretaryCertificateUpdateItem model)
@@ -312,6 +334,12 @@ public class SecretaryCertificateService : ISecretaryCertificateService
         
         _context.Certificate.Update(foundCertificate);
         _context.SaveChanges();
+        
+        var subject = "Starea cererii pentru adeverinta student USV";
+        var body = $"Buna ziua, dorim sa va informam, ca cererea pentru adeverinta " +
+                   $"studentului USV a fost respinsa din urmatorul motiv: " + model.DenyReason;
+        
+        _emailService.SendEmail(foundCertificate.Student.Email, subject, body);
     }
 
     private string GenerateRegistrationNumber(int facultyId)
