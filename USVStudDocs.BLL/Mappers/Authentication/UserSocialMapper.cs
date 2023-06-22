@@ -3,11 +3,11 @@ using USVStudDocs.Models;
 
 namespace USVStudDocs.BLL.Mappers.Authentication;
 
-public class UserSocialMapper : IMapper<UserSocialEntity, UserSocial>
+public class UserSocialMapper : IMapper<UserEntity, UserSocial>
 {
-    public UserSocialEntity Map(UserSocial source)
+    public UserEntity Map(UserSocial source)
     {
-        return new UserSocialEntity
+        return new UserEntity
         {
             Id = source.Id,
             Email = source.Email,
@@ -19,7 +19,7 @@ public class UserSocialMapper : IMapper<UserSocialEntity, UserSocial>
         };
     }
 
-    public UserSocial Map(UserSocialEntity source)
+    public UserSocial Map(UserEntity source)
     {
         return new UserSocial
         {

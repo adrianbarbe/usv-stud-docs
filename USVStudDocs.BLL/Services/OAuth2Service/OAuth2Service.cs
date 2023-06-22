@@ -1,13 +1,11 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using JWT.Algorithms;
 using JWT.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using USVStudDocs.BLL.Exceptions;
 using USVStudDocs.DAL;
 using USVStudDocs.Entities.Authentication;
-using USVStudDocs.Entities.Constants;
 using USVStudDocs.Models;
 using RestSharp;
 using Serilog;
@@ -53,38 +51,26 @@ public class OAuth2Service : IOAuth2Service
         var email = tokenS.Claims.FirstOrDefault(c => c.Type == "email");
         var firstName = tokenS.Claims.FirstOrDefault(c => c.Type == "given_name");
         var lastName = tokenS.Claims.FirstOrDefault(c => c.Type == "family_name");
-
-        var foundedUser = _context.UserSocial.FirstOrDefault(us => email != null && us.Email == email.Value);
-
-        if (foundedUser != null)
-        {
-            // If we found user generate token immediately
-            token.IdToken = GenerateJwtToken(foundedUser);
-            
-            return token;
-        }
-
+        
+        // Profile info request
         var profilePhotoRequest = new RestRequest("", Method.Get);
         profilePhotoRequest.AddHeader("Authorization", $"Bearer {token.AccessToken}");
         profilePhotoRequest.AddQueryParameter("personFields", "photos");
         var profileResponse = _googlePersonRestClient.Execute<ProfilePhotoResponse>(profilePhotoRequest);
         var profile = profileResponse.Data;
 
-        var userEntity = new UserSocialEntity
-        {
-            Email = email?.Value ?? "",
-            Username = email?.Value ?? "",
-            FirstName = firstName?.Value ?? "",
-            LastName = lastName?.Value ?? "",
-            UserPicture = profile?.Photos.FirstOrDefault()?.Url ?? "",
-            OAuthProvider = OAuthProviderTypes.Google,
-            ProviderUserId = sub?.Value ?? "",
-        };
-        _context.UserSocial.Add(userEntity);
-        _context.SaveChanges();
-        
-        Log.ForContext<OAuth2Service>().Warning("New user was created! {UserEntityEmail}", userEntity.Email);
+        var userEntity = _context.User
+            .Include(u => u.Role)
+            .FirstOrDefault(us => email != null && us.Email == email.Value);
 
+        if (userEntity == null)
+        {
+            throw new ValidationException("Associated user is not found in the system");
+        }
+
+        _context.SaveChanges();
+
+        // Log.ForContext<OAuth2Service>().Warning("New user was created! {UserEntityEmail}", userEntity.Email);
         
         // Generate token after creating user
         token.IdToken = GenerateJwtToken(userEntity);
@@ -106,16 +92,22 @@ public class OAuth2Service : IOAuth2Service
         codeExchangeRequest.AddQueryParameter("redirect_uri", redirectUri);
         codeExchangeRequest.AddQueryParameter("grant_type", "authorization_code");
 
-        var tokenResponse = _googleRestClient.Execute<AuthTokenResponse>(codeExchangeRequest);
-        var token = tokenResponse.Data;
-        
+        var token = new AuthTokenResponse();
+        try
+        {
+            var tokenResponse = _googleRestClient.Execute<AuthTokenResponse>(codeExchangeRequest);
+            token = tokenResponse.Data;
+        }
+        catch (Exception e)
+        {
+            Log.ForContext<OAuth2Service>().Error("Something went wrong with token authentication on Google");
+        }
+
         return token;
     }
     
-    private string GenerateJwtToken(UserSocialEntity userEntity)
+    private string GenerateJwtToken(UserEntity userEntity)
     {
-        string[] roles = new[] { "user" };
-
         var jwtSecretKey = Environment.GetEnvironmentVariable("JwtSecretKey") ?? _jwtSettings.SecretKey;
 
         var tokenBuilder = new JwtBuilder()
@@ -130,7 +122,8 @@ public class OAuth2Service : IOAuth2Service
             .AddClaim(JwtRegisteredClaimNames.Email, userEntity.Email)
             .AddClaim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.AddMilliseconds(1).ToUnixTimeSeconds());
         
-        tokenBuilder.AddClaim("role", roles);
+        string role = userEntity.Role.Name;
+        tokenBuilder.AddClaim("role", role);
             
         return tokenBuilder.Encode();
     }

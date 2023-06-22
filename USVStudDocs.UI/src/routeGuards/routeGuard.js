@@ -1,6 +1,6 @@
-export default (to, from, next) => (app) => {
-    if (!app.config.globalProperties.$auth.isAuthenticated()) {
-        next({name: 'sign-up'});
-    }
-    next();
-}
+export default (to, from, next) => (router) => {
+  if (!router.app.$auth.isAuthenticated()) {
+    next({ name: "sign-up" });
+  }
+  next();
+};

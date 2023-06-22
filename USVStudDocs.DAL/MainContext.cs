@@ -1,8 +1,5 @@
-using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using USVStudDocs.DAL.EntityConfigurations;
 using USVStudDocs.DAL.Helpers;
@@ -33,9 +30,20 @@ public class MainContext : DbContext
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
     
-    public virtual DbSet<UserSocialEntity> UserSocial { get; set; }
-    public virtual DbSet<UserAdminEntity> UserAdmin { get; set; }
+    public virtual DbSet<UserEntity> User { get; set; }
+    public virtual DbSet<RoleEntity> Role { get; set; }
     public virtual DbSet<FileEntity> File { get; set; }
+    public virtual DbSet<CertificateEntity> Certificate { get; set; }
+    public virtual DbSet<EmailSentEntity> EmailSent { get; set; }
+    public virtual DbSet<RegNumberRegistryEntity> RegNumberRegistry { get; set; }
+    public virtual DbSet<SettingsEntity> Settings { get; set; }
+    public virtual DbSet<StudentEntity> Student { get; set; }
+    public virtual DbSet<YearSemesterEntity> YearSemester { get; set; }
+    public virtual DbSet<ProgramStudyEntity> ProgramStudy { get; set; }
+    public virtual DbSet<FacultyEntity> Faculty { get; set; }
+    public virtual DbSet<FacultyPersonEntity> FacultyPerson { get; set; }
+    public virtual DbSet<YearProgramStudyEntity> YearProgramStudy { get; set; }
+    public virtual DbSet<CommonRegistrationNumberEntity> CommonRegistrationNumber { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,9 +57,20 @@ public class MainContext : DbContext
             }
         }
         
-        modelBuilder.ApplyConfiguration(new UserSocialEntityConfig());
-        modelBuilder.ApplyConfiguration(new UserAdminEntityConfig());
+        modelBuilder.ApplyConfiguration(new UserEntityConfig());
+        modelBuilder.ApplyConfiguration(new RoleEntityConfig());
         modelBuilder.ApplyConfiguration(new FileEntityConfig());
+        modelBuilder.ApplyConfiguration(new CertificateEntityConfig());
+        modelBuilder.ApplyConfiguration(new EmailSentEntityConfig());
+        modelBuilder.ApplyConfiguration(new RegNumberRegistryEntityConfig());
+        modelBuilder.ApplyConfiguration(new SettingsEntityConfig());
+        modelBuilder.ApplyConfiguration(new StudentEntityConfig());
+        modelBuilder.ApplyConfiguration(new YearSemesterEntityConfig());
+        modelBuilder.ApplyConfiguration(new ProgramStudyEntityConfig());
+        modelBuilder.ApplyConfiguration(new FacultyEntityConfig());
+        modelBuilder.ApplyConfiguration(new YearProgramStudyEntityConfig());
+        modelBuilder.ApplyConfiguration(new FacultyPersonEntityConfig());
+        modelBuilder.ApplyConfiguration(new CommonRegistrationNumberEntityConfig());
     }
     
     // Methods for soft delete

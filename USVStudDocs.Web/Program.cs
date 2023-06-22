@@ -1,17 +1,9 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using USVStudDocs.BLL.Authorization;
@@ -34,9 +26,30 @@ using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using TelegramSink;
 using UMSA.StepTest.BLL.Configuration;
+using USVStudDocs.BLL.Mappers.Admin;
+using USVStudDocs.BLL.Mappers.Secretary;
+using USVStudDocs.BLL.Mappers.Student;
+using USVStudDocs.BLL.Services.CommonNumberService;
+using USVStudDocs.BLL.Services.EmailService;
+using USVStudDocs.BLL.Services.FacultyPersonService;
+using USVStudDocs.BLL.Services.FacultyService;
+using USVStudDocs.BLL.Services.NavigationService;
+using USVStudDocs.BLL.Services.ProgramStudyService;
+using USVStudDocs.BLL.Services.SecretaryCertificateService;
+using USVStudDocs.BLL.Services.SemesterService;
+using USVStudDocs.BLL.Services.SettingsService;
+using USVStudDocs.BLL.Services.StudentCertificateService;
+using USVStudDocs.BLL.Services.StudentService;
+using USVStudDocs.BLL.Services.StudentsImportService;
+using USVStudDocs.Entities;
+using USVStudDocs.Models.Admin;
+using USVStudDocs.Models.Secretary;
+using USVStudDocs.Models.Student;
 using IAuthorizationService = USVStudDocs.BLL.Services.AuthorizationService.IAuthorizationService;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddEnvironmentVariables(prefix: "USV_");
 
 var corsAllowOrigins = "corsAllowOrigins";
 
@@ -48,12 +61,23 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: corsAllowOrigins,
         corsPolicyBuilder =>
         {
-            corsPolicyBuilder
-                // .AllowAnyOrigin()
-                .WithOrigins(origins)
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .WithExposedHeaders("Content-Disposition", "Content-Length");
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            if (env == "Development")
+            {
+                corsPolicyBuilder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }
+            else
+            {
+                corsPolicyBuilder
+                    // .AllowAnyOrigin()
+                    .WithOrigins(origins)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }
         });
 });
 
@@ -71,11 +95,14 @@ builder.Host
             .WriteTo.TeleSink(
                 telegramApiKey: builder.Configuration["SerilogTelegram:ApiKey"],
                 telegramChatId: builder.Configuration["SerilogTelegram:ChatId"],
-                minimumLevel: LogEventLevel.Warning
+                minimumLevel: LogEventLevel.Error
             )
     );
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+builder.Services.AddHostedService<StartupCheckAdmin>();
+
 builder.Services
     .AddAuthentication(options =>
     {
@@ -121,7 +148,9 @@ builder.Services
 
 builder.Services.AddAuthorization(o =>
 {
-    o.AddPolicy(Policies.User, policy => policy.Requirements.Add(new RoleRequirement("user")));
+    o.AddPolicy(Policies.Student, policy => policy.Requirements.Add(new RoleRequirement("student")));
+    o.AddPolicy(Policies.Secretary, policy => policy.Requirements.Add(new RoleRequirement("secretary")));
+    o.AddPolicy(Policies.Admin, policy => policy.Requirements.Add(new RoleRequirement("admin")));
 });
 
 builder.Services.AddDbContext<MainContext>(options =>
@@ -148,6 +177,13 @@ builder.Services.Configure<AwsMinioSettings>(builder.Configuration.GetSection("A
 
 // Mappers
 builder.Services.AddSingleton<IMapper<FileEntity, FileStorage>, FileMapper>();
+builder.Services.AddSingleton<IMapper<ProgramStudyEntity, ProgramStudy>, ProgramStudyMapper>();
+builder.Services.AddSingleton<IMapper<YearSemesterEntity, Semester>, SemesterMapper>();
+builder.Services.AddSingleton<IMapper<FacultyEntity, Faculty>, FacultyMapper>();
+builder.Services.AddSingleton<IMapper<FacultyPersonEntity, FacultyPerson>, FacultyPersonMapper>();
+builder.Services.AddSingleton<IMapper<StudentEntity, Student>, StudentMapper>();
+builder.Services.AddSingleton<IMapper<CertificateEntity, StudentCertificateListItem>, StudentCertificateListItemMapper>();
+builder.Services.AddSingleton<IMapper<CertificateEntity, SecretaryCertificateListItem>, SecretaryCertificateListItemMapper>();
 
 // Services
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -157,6 +193,20 @@ builder.Services.AddScoped<IAuthorizationDAHelper, AuthorizationDAHelper>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IOAuth2Service, OAuth2Service>();
 builder.Services.AddScoped<IAwsMinioClient, AswMinioClient>();
+builder.Services.AddScoped<IProgramStudyService, ProgramStudyService>();
+builder.Services.AddScoped<ISemesterService, SemesterService>();
+builder.Services.AddScoped<IFacultiesService, FacultiesService>();
+builder.Services.AddScoped<IFacultyPersonService, FacultyPersonService>();
+builder.Services.AddScoped<ISettingsService, SettingsService>();
+builder.Services.AddScoped<INavigationService, NavigationService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IStudentsImportService, StudentsImportService>();
+builder.Services.AddScoped<IStudentCertificateService, StudentCertificateService>();
+builder.Services.AddScoped<ISecretaryCertificateService, SecretaryCertificateService>();
+builder.Services.AddScoped<ICommonNumberService, CommonNumberService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.AddScoped<StartupCheckAdmin>();
 
 // Validators
 builder.Services.AddTransient<IValidator<FileStorage>, FileValidator>();
@@ -168,16 +218,18 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 app.UseCors(corsAllowOrigins);
 
 app.UseAuthentication();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 app.UseAuthorization();
 

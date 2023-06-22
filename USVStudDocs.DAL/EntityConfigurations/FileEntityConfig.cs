@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using USVStudDocs.DAL.Contants;
+using USVStudDocs.DAL.Constants;
 using USVStudDocs.Entities.Storage;
 
 namespace USVStudDocs.DAL.EntityConfigurations;

@@ -1,28 +1,26 @@
 const state = {
-    topNavigationItem: {
-        name: '',
-    },
+  topNavigationItem: {
+    name: "",
+  },
 };
 
 const getters = {
-    getTopNavigationTitle: state => {
-        return state.topNavigationItem.name;
-    },
+  getTopNavigationTitle: (state) => {
+    return state.topNavigationItem.name;
+  },
 };
 
-const actions = {
-};
+const actions = {};
 
 const mutations = {
-    setTopNavigationItem(state, navItem) {
-        state.topNavigationItem = navItem;
-    }
+  setTopNavigationItem(state, navItem) {
+    state.topNavigationItem = navItem;
+  },
 };
 
-
 export default {
-    state,
-    getters,
-    actions,
-    mutations
-}
+  state,
+  getters,
+  actions,
+  mutations,
+};

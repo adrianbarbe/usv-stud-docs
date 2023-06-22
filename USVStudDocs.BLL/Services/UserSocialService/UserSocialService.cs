@@ -10,9 +10,9 @@ namespace USVStudDocs.BLL.Services.UserSocialService;
 public class UserSocialService : IUserSocialService
 {
     private readonly MainContext _context;
-    private readonly IMapper<UserSocialEntity, UserSocial> _mapper;
+    private readonly IMapper<UserEntity, UserSocial> _mapper;
 
-    public UserSocialService(MainContext context, IMapper<UserSocialEntity, UserSocial> mapper)
+    public UserSocialService(MainContext context, IMapper<UserEntity, UserSocial> mapper)
     {
         _context = context;
         _mapper = mapper;
@@ -20,7 +20,7 @@ public class UserSocialService : IUserSocialService
     
     public List<UserSocial> GetAll()
     {
-        return _context.UserSocial.Select(u => _mapper.Map(u)).ToList();
+        return _context.User.Select(u => _mapper.Map(u)).ToList();
     }
 
     public UserSocial Create(UserSocial userSocial)
@@ -28,7 +28,7 @@ public class UserSocialService : IUserSocialService
         var userSocialEntity = _mapper.Map(userSocial);
         userSocialEntity.ProviderUserId = "manual";
         
-        _context.UserSocial.Add(userSocialEntity);
+        _context.User.Add(userSocialEntity);
         _context.SaveChanges();
 
         return userSocial;

@@ -12,7 +12,7 @@ using USVStudDocs.Models.Constants;
 
 namespace USVStudDocs.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FileController : Controller
     {
         private readonly IWebHostEnvironment _environment;
@@ -27,44 +27,35 @@ namespace USVStudDocs.Web.Controllers
             _awsMinioClient = awsMinioClient;
             _fileService = fileService;
         }
-        
-        
-        [HttpPost]
-        [Authorize(Policy = Policies.User)]
-        [Route("upload/book")]
-        public async Task<FileStorage> UploadBook(IFormFile file)
-        {
-            using (var fileMemoryStream = new MemoryStream())
-            {
-                var fileSize = 30 * 1024 * 1024;
-                if (file.Length > fileSize) // Max file size 30Mb
-                {
-                    throw new UploadFileException($"File size must bt less than {fileSize / 1024} kb");
-                }
-                
-                file.CopyTo(fileMemoryStream);
-                
-                var fileName = await _awsMinioClient.Upload(MinioBucketNames.StudentImportFiles, fileMemoryStream,file.FileName);
 
-                var fileStorage = new FileStorage
-                {
-                    FileName = fileName,
-                    FileSize = file.Length,
-                    FileType = Path.GetExtension(fileName),
-                };
-                var fileStorageCreated = _fileService.Create(fileStorage);
-                
-                return fileStorageCreated;
-            }
-        }
-        
         [HttpGet]
-        [Route("get/book/{fileName}")]
-        public async Task<ActionResult> GetBook(string fileName)
+        [Route("sample/{type?}")]
+        public async Task<ActionResult> GetFile(string? type)
         {
-            var responseFile = await _awsMinioClient.Get(MinioBucketNames.StudentImportFiles, fileName);
+            string currentDirectory = Directory.GetCurrentDirectory();
 
-            return new FileStreamResult(responseFile.Stream, responseFile.ContentType);
+            string filePathConcatenated = Path.Combine(currentDirectory, "assets/usv_students_template_concatenated.csv");
+            string filePath = Path.Combine(currentDirectory, "assets/usv_students_template.csv");
+
+            string fileToDownload = filePath;
+
+            if (type == "concatenated")
+            {
+                fileToDownload = filePathConcatenated;
+            }
+
+            if (System.IO.File.Exists(fileToDownload))
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(fileToDownload);
+
+                string contentType = "text/csv";
+                
+                return File(fileBytes, contentType, Path.GetFileName(fileToDownload));
+            }
+            else
+            {
+                throw new NotFoundException("File is not found");
+            }
         }
     }
 }
