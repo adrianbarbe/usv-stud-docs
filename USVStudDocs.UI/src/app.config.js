@@ -9,7 +9,7 @@ export default {
     // GA: {id: ""},
   },
   production: {
-    apiEndpoint: "https://api.ulib.online",
+    apiEndpoint: "https://api.ulib.online/api",
     appEndpoint: "https://ulib.online",
     oauthClientId: "455359139560-h6e2hpgeheekl0po8ll0pv8blsf7fju9.apps.googleusercontent.com"
     // GA: {id: ""},
