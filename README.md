@@ -295,22 +295,22 @@ sudo docker swarm init
 ```
 Make a note of the command output, as it will contain the token needed to add other nodes to the Swarm.
 
-3. Create a directory on your home directory or another which you prefer (e.g. /home/usv-stud-docs)
+3. Create a directory on your home directory or another which you prefer (e.g. ```/home/usv-stud-docs```)
 
-3. Copy the file docker-compose.yml to this directory on the server.
+3. Copy the file ```docker-compose.yml``` to this directory on the server.
 
 4. Update the ENVs in the docker-compose.yml.
 
-    - POSTGRES_PASSWORD - the desired PostresDB instance password.
-    - ASPNETCORE_ENVIRONMENT - to Development or Production
-    - DbConnectionString - according to this sample: Host=<host ip>;Port=15432;Database=usv-stud-docs;Username=usv-user;Password=<password indicated in POSTGRES_PASSWORD>
-    - GoogleClientId - which you obtained by visiting https://console.cloud.google.com/apis/credentials and creating oAuth2 credentials (after you created the project)
-    - GoogleClientSecret - the secret from the previous place
-    - GoogleRedirectUri - should correspond to the one indicated in Google Console, and should be according to this sample: https://<host_name>/auth/redirect
-    - GoogleEmailRedirectUri - this is used for authorizing for sending emails, should correspond to the one indicated in Google Console, and should be according to this sample: https://<host_name>/auth/redirect
-    - JwtSecretKey - a random string 16-32 chars length
+    - ```POSTGRES_PASSWORD``` - the desired PostresDB instance password.
+    - ```ASPNETCORE_ENVIRONMENT``` - to Development or Production
+    - ```DbConnectionString``` - according to this sample: ```Host=<host ip>;Port=15432;Database=usv-stud-docs;Username=usv-user;Password=<password>``` indicated in ```POSTGRES_PASSWORD```
+    - ```GoogleClientId``` - which you obtained by visiting https://console.cloud.google.com/apis/credentials and creating oAuth2 credentials (after you created the project)
+    - ```GoogleClientSecret``` - the secret from the previous place
+    - ```GoogleRedirectUri``` - should correspond to the one indicated in Google Console, and should be according to this sample: https://<host_name>/auth/redirect
+    - ```GoogleEmailRedirectUri``` - this is used for authorizing for sending emails, should correspond to the one indicated in Google Console, and should be according to this sample: https://<host_name>/auth/redirect
+    - ```JwtSecretKey``` - a random string 16-32 chars length
    
-5. Create new directory called "db", assign the ownership to the user that will run the app (e.g. usvdocs) and assign 777 access rights.
+5. Create new directory called ```db```, assign the ownership to the user that will run the app (e.g. usvdocs) and assign 777 access rights.
 
 ```sh
 mkdir db
@@ -318,12 +318,12 @@ sudo chown usvdocs db
 sudo chmod 777 db
 ```
 
-6. In real-world scenario you'd need to push the Docker image to your own private DockerHub, where the Docker images are stored. In our case, you could use the already stored public images, that are indicated in the docker-compose.yml (this needs no changes). This would require to exeute docker login -u {username} commant.
+6. In real-world scenario you'd need to push the Docker image to your own private DockerHub, where the Docker images are stored. In our case, you could use the already stored public images, that are indicated in the ```docker-compose.yml``` (this needs no changes). This would require to exeute ```docker login -u {username}``` commane.
 
 7. You need to start your services by executing next command:
 
 ```sh
-docker stack deploy --compose-file docker-compose.yml usvstudulib --with-registry-auth
+docker stack deploy --compose-file docker-compose.yml usv-docs --with-registry-auth
 ```
 
 8. You may want to check the services status:
@@ -332,9 +332,9 @@ docker stack deploy --compose-file docker-compose.yml usvstudulib --with-registr
 docker service ls
 ```
 
-9. After the services were created, please connect to the DB (postgresql), don't forget to use the corresponding port from the docker-compose.yml and exeucte the file "USVStudDocs.DAL/MigrationSQL/migration.sql".
+9. After the services were created, please connect to the DB (postgresql), don't forget to use the corresponding port from the docker-compose.yml and exeucte the file ```USVStudDocs.DAL/MigrationSQL/migration.sql```.
 10. After this your app instance will be populated with the data structure and the initial data.
-11. You may want to set-up the load balancer, to serve the L7 network, e.g. nginx. You could find a sample Nginx set-up in Docker_files/nginx_lb/usvstud.conf which should be places in /etc/nginx/sites-available and then a symbolic link (ln -s) should be created to /etc/nginx/sites-enabled.
+11. You may want to set-up the load balancer, to serve the L7 network, e.g. nginx. You could find a sample Nginx set-up in Docker_files/nginx_lb/usvstud.conf which should be places in ```/etc/nginx/sites-available``` and then a symbolic link (```ln -s```) should be created to ```/etc/nginx/sites-enabled```.
 12. You may also want to install some LetsEncypt SSL cetificates in case no other options are available:
 
 ```sh
@@ -387,7 +387,8 @@ _To run the API project, you'll need to create a .env file in RemoteFinder.Web w
 4. ```GoogleClientId``` is the client id for the Google oAuth2 Credentials. For creating new credentials please access [Google Developers Console](https://console.cloud.google.com/apis/credentials)
 5. ```GoogleClientSecret``` client secret generated in Google Developers Console
 6. ```GoogleRedirectUri``` redirect URI which you indicated in the Google oAuth2 application settings
-7. ```JwtSettings:SecretKey``` and ```JwtSecretKey``` – a hash string for JWT tokens.
+7. ```GoogleEmailRedirectUri``` redirect URI for email sending, which you indicated in the Google oAuth2 application settings
+8. ```JwtSettings:SecretKey``` and ```JwtSecretKey``` – a hash string for JWT tokens.
 
 After creating the .env file you could start your project locally by running ```dotnet run``` command or by using the configuration profile for JetBrains Rider which is stored in the project repository.
 
