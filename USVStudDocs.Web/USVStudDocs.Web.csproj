@@ -30,6 +30,15 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Update="assets/usv_students_template.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="assets/usv_students_template_concatenated.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\USVStudDocs.BLL\USVStudDocs.BLL.csproj" />
       <ProjectReference Include="..\USVStudDocs.DAL\USVStudDocs.DAL.csproj" />
     </ItemGroup>
