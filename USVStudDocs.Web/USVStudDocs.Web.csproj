@@ -24,6 +24,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="assets\">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Folder>
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\USVStudDocs.BLL\USVStudDocs.BLL.csproj" />
       <ProjectReference Include="..\USVStudDocs.DAL\USVStudDocs.DAL.csproj" />
     </ItemGroup>
