@@ -8,11 +8,19 @@ on:
   push:
     branches: [ master ]
     paths:
-      - api/**
+      - USVStudDocs.BLL/**
+      - USVStudDocs.DAL/**
+      - USVStudDocs.Entities/**
+      - USVStudDocs.Models/**
+      - USVStudDocs.Web/**
   pull_request:
     branches: [ master ]
     paths:
-      - api/**
+      - USVStudDocs.BLL/**
+      - USVStudDocs.DAL/**
+      - USVStudDocs.Entities/**
+      - USVStudDocs.Models/**
+      - USVStudDocs.Web/**
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
