@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using USVStudDocs.DAL;
+using USVStudDocs.Entities;
+using USVStudDocs.Entities.Constants;
 using USVStudDocs.Models.Admin;
 
 namespace USVStudDocs.BLL.Services.NavigationService;
@@ -48,6 +50,7 @@ public class NavigationService : INavigationService
                                 {
                                     Id = sem.Id,
                                     YearNumber = sem.YearNumber,
+                                    FieldOfStudy = MapFieldOfStudy(sem),
                                 })
                                 .ToList()
                         })
@@ -57,4 +60,24 @@ public class NavigationService : INavigationService
 
             return navList;
         }
+
+    private Models.Constants.FieldOfStudy MapFieldOfStudy(YearSemesterEntity source)
+    {
+        Models.Constants.FieldOfStudy fieldOfStudy = Models.Constants.FieldOfStudy.Bachelor;
+
+        switch (source.FieldOfStudy)
+        {
+            case FieldOfStudy.Bachelor:
+                fieldOfStudy = Models.Constants.FieldOfStudy.Bachelor;
+                break;
+            case FieldOfStudy.Master:
+                fieldOfStudy = Models.Constants.FieldOfStudy.Master;
+                break;
+            case FieldOfStudy.ProfessionalConversion:
+                fieldOfStudy = Models.Constants.FieldOfStudy.ProfessionalConversion;
+                break;
+        }
+
+        return fieldOfStudy;
+    }
 }

@@ -54,6 +54,7 @@ import AxiosService from "@/AxiosService";
 import NavigationListTemplate from "@/components/common/NavigationListTemplate.vue";
 import StudentsIndex from "@/components/admin/students/StudentsIndex.vue";
 import StudentsImportIndex from "@/components/admin/studentsImport/StudentsImportIndex.vue";
+import fieldOfStudy from "@/constants/fieldOfStudyEnum";
 
 export default {
   components: {
@@ -94,6 +95,15 @@ export default {
     },
   },
   methods: {
+    getFieldOfStudy(type) {
+      const foundFieldOfStudy = fieldOfStudy.find((f) => f.id === type);
+
+      if (foundFieldOfStudy) {
+        return foundFieldOfStudy.name;
+      }
+
+      return "";
+    },
     remapStudNavItems(studNavigationItems) {
       if (studNavigationItems === undefined) {
         return [];
@@ -104,7 +114,7 @@ export default {
       studNavigationItemsRemapped.map((fac) => {
         fac.programStudies.map((spec) => {
           spec.children = spec.yearSemesters.map((sem) => {
-            sem.name = `Anul ${sem.yearNumber}`;
+            sem.name = `Anul ${sem.yearNumber} (${this.getFieldOfStudy(sem.fieldOfStudy)})`;
             sem.route = {
               name: this.routeTo,
               params: {
