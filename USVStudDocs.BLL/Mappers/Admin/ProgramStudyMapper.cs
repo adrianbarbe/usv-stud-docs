@@ -14,6 +14,7 @@ namespace USVStudDocs.BLL.Mappers.Admin
                 NameShort = source.NameShort.Trim(),
                 OrderBy = source.OrderBy ?? 0,
                 FacultyId = source.Faculty.Id,
+                SecretaryId = source.Secretary.Id,
             };
         }
 
@@ -31,6 +32,12 @@ namespace USVStudDocs.BLL.Mappers.Admin
                     Name = source.Name,
                     OrderBy = source.OrderBy
                 },
+                Secretary = new FacultyPerson
+                {
+                    Id = source.Secretary.Id,
+                    Name = source.Secretary.Name,
+                    Surname = source.Secretary.Surname,
+                }
             };
 
             if (source.YearProgramStudy != null)

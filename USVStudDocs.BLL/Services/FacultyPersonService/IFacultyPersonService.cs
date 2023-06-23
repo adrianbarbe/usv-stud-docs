@@ -10,6 +10,7 @@ namespace USVStudDocs.BLL.Services.FacultyPersonService
         DataGridModel<FacultyPerson> GetAll(RequestQueryModel requestQueryModel);
 
         List<FacultyPerson> GetAll();
+        List<FacultyPerson> GetSecretaries();
 
         FacultyPerson Get(int id);
 

@@ -50,6 +50,7 @@
                 persistent-hint
                 solo
                 label="Selectati din lista predefinita sau indicati manual motivul cererii"
+                hint="Dupa ce ati introdus manual motivul cererii apasati tasta Enter"
               ></v-combobox>
             </v-flex>
           </v-layout>

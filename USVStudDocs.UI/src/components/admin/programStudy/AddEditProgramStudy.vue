@@ -44,6 +44,19 @@
 
             <v-flex xs12 md12>
               <v-select
+                  :items="secretaries"
+                  :error-messages="errors.secretary"
+                  v-model="form.secretary"
+                  item-text="name"
+                  item-value="id"
+                  return-object
+                  label="Secretara"
+                  chips
+              ></v-select>
+            </v-flex>
+
+            <v-flex xs12 md12>
+              <v-select
                 :items="semesters"
                 :error-messages="errors.yearSemesters"
                 v-model="form.yearSemesters"
@@ -114,6 +127,7 @@ export default {
       },
       semesters: [],
       faculties: [],
+      secretaries: [],
       loading: false,
       loadingSave: false,
     };
@@ -124,6 +138,15 @@ export default {
       .then((resp) => {
         this.faculties = resp;
       });
+
+    AxiosService.getInstance()
+        .get("facultyPerson/getSecretaries")
+        .then((resp) => {
+          this.secretaries = resp.map(r => {
+            r.name = `${r.surname} ${r.name}`
+            return r;
+          });
+        });
 
     AxiosService.getInstance()
       .get("semesters")

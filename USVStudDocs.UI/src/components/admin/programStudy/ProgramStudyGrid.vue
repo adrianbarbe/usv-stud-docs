@@ -14,6 +14,10 @@
       {{ item.faculty.name }}
     </template>
 
+    <template v-slot:item.secretary="{ item }">
+      {{ item.secretary.surname }} {{ item.secretary.name }}
+    </template>
+
     <template v-slot:item.actions="{ item }">
       <v-btn icon class="mx-0" @click="$emit('editItem', item.id)">
         <v-icon color="primary">edit</v-icon>
@@ -51,6 +55,7 @@ export default {
       { text: "Acronimul", value: "nameShort" },
       { text: "Ordinea", value: "orderBy" },
       { text: "Facultatea", value: "faculty" },
+      { text: "Secretara", value: "secretary" },
       { text: "Actiuni", value: "actions", sortable: false },
     ],
   }),

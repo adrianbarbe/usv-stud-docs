@@ -28,7 +28,8 @@ namespace USVStudDocs.BLL.Services.ProgramStudyService
         {
             var count = _context.ProgramStudy.Count();
             var items = _context.ProgramStudy
-                .Include(f => f.Faculty);
+                .Include(f => f.Faculty)
+                .Include(f => f.Secretary);
 
             var itemsOrders = items
                 .OrderBy(f => f.OrderBy)
@@ -52,6 +53,7 @@ namespace USVStudDocs.BLL.Services.ProgramStudyService
         {
             return _context.ProgramStudy
                 .Include(s => s.Faculty)
+                .Include(s => s.Secretary)
                 .Where(s => s.FacultyId == facultyId)
                 .OrderBy(s => s.OrderBy)
                 .Select(s => new ProgramStudy
@@ -66,6 +68,7 @@ namespace USVStudDocs.BLL.Services.ProgramStudyService
         {
             var specialityEntity = _context.ProgramStudy
                 .Include(s => s.Faculty)
+                .Include(s => s.Secretary)
                 .Include(s => s.YearProgramStudy)
                     .ThenInclude(s => s.YearSemester)
                 .FirstOrDefault(s => s.Id == id);
@@ -98,6 +101,7 @@ namespace USVStudDocs.BLL.Services.ProgramStudyService
             {
                 var specialityEntity = _context.ProgramStudy
                     .Include(f => f.Faculty)
+                    .Include(f => f.Secretary)
                     .Include(f => f.YearProgramStudy)
                     .FirstOrDefault(f => f.Id == model.Id);
 
@@ -132,6 +136,7 @@ namespace USVStudDocs.BLL.Services.ProgramStudyService
                 specialityEntity.NameShort = model.NameShort.Trim();
                 specialityEntity.OrderBy = model.OrderBy ?? 0;
                 specialityEntity.FacultyId = model.Faculty.Id;
+                specialityEntity.SecretaryId = model.Secretary.Id;
 
                 _context.ProgramStudy.Update(specialityEntity);
             }

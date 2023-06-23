@@ -32,6 +32,13 @@ namespace USVStudDocs.Web.Controllers.admin
         {
             return _facultyPersonService.GetAll();
         }
+        
+        [HttpGet]
+        [Route("getSecretaries")]
+        public List<FacultyPerson> GetSecretaries()
+        {
+            return _facultyPersonService.GetSecretaries();
+        }
 
         [HttpGet]
         [Route("{id}")]

@@ -9,5 +9,7 @@
         
         public List<YearSemester>? YearSemesters { get; set; }
         public Faculty Faculty { get; set; }
+        
+        public FacultyPerson Secretary { get; set; }
     }
 }

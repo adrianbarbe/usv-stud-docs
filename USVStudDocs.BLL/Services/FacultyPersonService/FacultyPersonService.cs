@@ -51,6 +51,16 @@ public class FacultyPersonService : IFacultyPersonService
             .ToList();
     }
 
+    public List<FacultyPerson> GetSecretaries()
+    {
+        return _context.FacultyPerson
+            .Include(f => f.User)
+            .OrderBy(s => s.Surname)
+            .Where(s => s.PersonType == FacultyPersonType.Secretary)
+            .Select(s => _mapper.Map(s))
+            .ToList();
+    }
+
     public FacultyPerson Get(int id)
     {
         var facultyPerson = _context.FacultyPerson
