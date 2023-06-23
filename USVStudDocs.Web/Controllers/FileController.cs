@@ -38,6 +38,9 @@ namespace USVStudDocs.Web.Controllers
             string filePath = Path.Combine(currentDirectory, "assets/usv_students_template.csv");
 
             string fileToDownload = filePath;
+            
+            Console.WriteLine("currentDirectory: " + currentDirectory.ToString());
+            Console.WriteLine("filePath: " + filePath.ToString());
 
             if (type == "concatenated")
             {
