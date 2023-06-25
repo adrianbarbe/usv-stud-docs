@@ -8,6 +8,8 @@ namespace USVStudDocs.BLL.Services.SecretaryCertificateService;
 public interface ISecretaryCertificateService
 {
     SecretaryCertificatePrint GetPrint(int id);
+
+    List<SecretaryCertificateListItem> GetArchive();
     DataGridModel<SecretaryCertificateListItem> GetList(RequestQueryModel requestQueryModel, CertificateStatus status);
     SecretaryCertificateSummary GetCount();
     void ConfirmItem(int id);

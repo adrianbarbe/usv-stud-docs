@@ -127,6 +127,46 @@ public class SecretaryCertificateService : ISecretaryCertificateService
         };
     }
 
+    public List<SecretaryCertificateListItem> GetArchive()
+    {
+        var userName = _authorizationService.GetUserName();
+
+        var personFaculty = _context.FacultyPerson
+            .Include(fp => fp.User)
+            .FirstOrDefault(fp => fp.User.Email == userName);
+        
+        if (personFaculty == null)
+        {
+            throw new ValidationException("Cannot find personFaculty");
+        }
+
+        var programStudy = _context.ProgramStudy
+            .FirstOrDefault(ps => ps.SecretaryId == personFaculty.Id);
+
+        if (programStudy == null)
+        {
+            throw new ValidationException("Cannot find program study");
+        }
+        
+        return _context.Certificate
+            .OrderBy(c => c.RegistrationDate)
+            .Include(c => c.Secretary)
+            
+            .Include(c => c.Student)
+            .ThenInclude(cs => cs.Faculty)
+            
+            .Include(c => c.Student)
+            .ThenInclude(cs => cs.ProgramOfStudy)
+            
+            .Include(c => c.Student)
+            .ThenInclude(cs => cs.YearSemester)
+            
+            .Where(c => c.Student.FacultyId == programStudy.FacultyId && c.Status == Entities.Constants.CertificateStatus.Signed)
+
+            .Select(f => _secretaryCertificateMapper.Map(f))
+            .ToList();
+    }
+
     public DataGridModel<SecretaryCertificateListItem> GetList(RequestQueryModel requestQueryModel, CertificateStatus status)
     {
         var userName = _authorizationService.GetUserName();

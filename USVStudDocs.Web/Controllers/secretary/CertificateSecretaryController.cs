@@ -1,3 +1,4 @@
+using System.Text;
 using ePlato.CoreApp.Models.Shared.DataGrid;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -72,6 +73,71 @@ namespace USVStudDocs.Web.Controllers.secretary
         public void RejectItem([FromBody] SecretaryCertificateUpdateItem secretaryCertificateUpdateItem, int id)
         {
             _secretaryCertificateService.RejectItem(id, secretaryCertificateUpdateItem);
+        }
+        
+        [HttpGet]
+        [Route("archive/getAll")]
+        [Authorize(Policy = Policies.Secretary)]
+        public IActionResult GetArchive()
+        {
+            var data = _secretaryCertificateService.GetArchive();
+            
+            var csvContent = ConvertToCsv(data);
+            var csvBytes = Encoding.UTF8.GetBytes(csvContent);
+
+            var memoryStream = new MemoryStream(csvBytes);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            return File(memoryStream, "text/csv", "data.csv");
+        }
+        
+        private string ConvertToCsv(IEnumerable<SecretaryCertificateListItem> data)
+        {
+            var csv = new StringBuilder();
+
+            csv.AppendLine("Nr. înregistrare,Data înregistrării,Nume student," +
+                           "Prenume student,Domeniu/program de studii,An de studiu," +
+                           "Finanțare,Motiv adeverință");
+
+            foreach (var person in data)
+            {
+                csv.AppendLine($"{person.RegistrationNumber},{person.RegistrationDate}," +
+                               $"{person.Student.Surname},{person.Student.Name},{MapFieldOfStudyToStr(person.Student.YearSemester.FieldOfStudy)}/{person.Student.ProgramStudy.Name}," +
+                               $"{person.Student.YearSemester.YearNumber},{MapFinancialStatusToStr(person.Student.FinancialStatus)}," +
+                               $"{person.CertificateReason}");
+            }
+
+            return csv.ToString();
+        }
+
+        private string MapFieldOfStudyToStr(FieldOfStudy fieldOfStudy)
+        {
+            switch (fieldOfStudy)
+            {
+                case FieldOfStudy.Bachelor:
+                    return "Licenta";
+                case FieldOfStudy.Master:
+                    return "Master";
+                case FieldOfStudy.ProfessionalConversion:
+                    return "Conversie profesionala";
+                default:
+                    return "-";
+;            }
+        }
+        private string MapFinancialStatusToStr(FinancialStatus status)
+        {
+            if (status == FinancialStatus.Budget)
+            {
+                return "Buget";
+            }
+            else if (status == FinancialStatus.TuitionFee)
+            {
+                return "Cu taxa";
+            }
+            else
+            {
+                return "-";
+            }
         }
     }
 }

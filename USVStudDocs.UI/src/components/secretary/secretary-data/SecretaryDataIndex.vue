@@ -13,6 +13,8 @@
       @setSignedItem="setSignedItem"
     >
     </secretary-data-grid>
+    
+    <v-btn class="mt-3" large @click="downloadCsv">Descarca raport CSV cu adeverintile emise</v-btn>
 
     <v-dialog v-model="dialogReject" max-width="800px" scrollable>
       <reject-request-certificate
@@ -130,6 +132,22 @@ export default {
         })
         .catch((err) => {});
     },
+    downloadCsv() {
+      AxiosService.getInstance()
+          .get('certificateSecretary/archive/getAll')
+          .then(response => {
+            const pom = document.createElement('a');
+            const blob = new Blob([response],{type: 'text/csv;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+            
+            pom.href = url;
+            pom.setAttribute('download', 'adeverinte_arhiva.csv');
+            pom.click();
+          })
+          .catch(error => {
+            console.error('Error downloading CSV:', error);
+          });
+    }
   },
   data: () => {
     return {
